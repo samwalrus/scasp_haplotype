@@ -2,31 +2,31 @@
 
 <div class="nb-cell html" name="htm2">
 <h1>Parsimonious Haplotype inference using s(CASP). </h1>
-
+<p> Sam Neaves 2021 </p>
 (Example adapted from: Dal Palu, Alessandro, et al. "Exploring life: answer set programming in bioinformatics." Declarative logic programming: theory, systems, and applications. 2018. 359-412.)
 
 
 <p>
 DNA of a diploid organism such as humans is stored in two non-identical sequences of DNA. A single sequence is called a haplotype. Each haplotype is inherited from a single parent. The two sequences together are called the genotype.
-We can represent genotypes and haplotypes by a collection of ambiguous SNPS in sequence (as opposed to the compelte sequences where there is many places where there is no ambiguity).
+We can represent genotypes and haplotypes by a collection of ambiguous SNPS in sequence (as opposed to the complete sequences where there is many places where there is no ambiguity).
 </p>
 <p>
-Biotechnolgy allows cheap genotyping but being able to infer haplotypes of a set of SNPs is usefull for a number of tasks,  for example imputation where a set of haplotypes infered from a small genotyping SNP array can be compared to a reference population of sequence data in order to impute a much larger number of SNPS.
+Biotechnolgy allows cheap genotyping but being able to infer haplotypes of a set of SNPs is useful for a number of tasks,  for example imputation where a set of haplotypes inferred from a small genotyping SNP array can be compared to a reference population of sequence data in order to impute a much larger number of SNPS.
 </p>
 <p>
 We can use s(CASP) with abductive reasoning to infer the smallest set of haplotypes that explain a given set of observed genotypes.
 </p>
 <p>
-To do this we define the rules of <code>conflation/3</code> as defined in [1] on lines 2-5. 
-If they are Hetrozygous they will have the genotype 2, otherwise they will have either 1 or 0 for the alternative homozygous genotypes.
-We then give a recursive defintion to <code>conflation_seq/2</code> which defines a sequence of conflations. (Line 7-8).
+To do this we declare the rules of <code>conflation/3</code> as defined in [1] on lines 2-5. 
+If they are Heterozygous they will have the genotype 2, otherwise they will have either 1 or 0 for the alternative homozygous genotypes.
+We then give a recursive definition to <code>conflation_seq/2</code> which defines a sequence of conflation. (Line 7-8).
 </p>
 <p>
 A genotype is defined as the conflated sequences of two haplotypes. (Lines 12-15).
 </p>
 <p>
 A haplotype is defined as being anything on line 17. 
-The s(CASP) proof procedure will instansinated the variable with haplotypes that are consistant with our query.
+The s(CASP) proof procedure will instantiate the variables in its model with haplotypes that are consistent with our query.
 </p>
 </div>
 
@@ -36,8 +36,8 @@ The s(CASP) proof procedure will instansinated the variable with haplotypes that
 
 <div class="nb-cell program" data-background="true" name="p2">
 %conflation.
-conflation(2,0,1). %Hetrozygous
-conflation(2,1,0). %Hetrozygous
+conflation(2,0,1). %Heterozygous
+conflation(2,1,0). %Heterozygous
 conflation(0,0,0). %Homozygous
 conflation(1,1,1). %Homozygous.
 
@@ -58,7 +58,7 @@ haplotype(_X).
 We can then query the program with our observed genotypes. s(CASP) will return in its model the set of haplotypes that is able to explain the observations.
 In this case the first model returned is the smallest. i.e. the set of haplotypes :
     [0,1,0],[1,1,1],[1,0,1] 
-Asking s(CASP) to back track and return other models will find addtional proofs for this model as well as addtional larger models such as [0,1,1],[1,1,0],[1,0,1],[1,1,1].
+Asking s(CASP) to back track and return other models will find additional proofs for this model as well as additional larger models such as [0,1,1],[1,1,0],[1,0,1],[1,1,1].
 </div>
 
 <div class="nb-cell html" name="htm3">
@@ -80,7 +80,7 @@ We can also query with missing data as well as constraints on missing data. For 
 </div>
 
 <div class="nb-cell html" name="htm4">
-<p>We can add contraints to the model for example do not allow the haplotype [0,1,0], by adapting the rule for haplotypes on line 17.</p>
+<p>We can add constraints to the model for example do not allow the haplotype [0,1,0], by adapting the rule for haplotypes on line 17.</p>
 <code> haplotype(X):- not my_constraint(X). </code><br><code>my_constraint([0,1,0]).</code>
 </div>
 
@@ -91,7 +91,6 @@ Complexity of exact and approximation algorithms. INFORMS Journal on Computing,
 
 
 [2] Dal Palu, Alessandro, et al. "Exploring life: answer set programming in bioinformatics." Declarative logic programming: theory, systems, and applications. 2018. 359-412.
-
 </div>
 
 </div>
