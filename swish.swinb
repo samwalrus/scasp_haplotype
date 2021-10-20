@@ -1,0 +1,51 @@
+<div class="notebook">
+
+<div class="nb-cell markdown" name="md1">
+# Parsimonious Haplotype inference using s(CASP).
+
+DNA of a diploid organism such as humans is stored in two non-identical sequences of DNA. A single sequence is called a haplotype. Each haplotype is inherited from a single parent. The two sequences together are called the genotype.
+We can represent Genotypes and Haplotypes by the collection of ambiguous SNPS (as opposed to the compelte sequences where there is many places where there is no ambiguity).
+
+We can use s(CASP) with abductive reasoning to infer the smallest set of haplotypes that explain a given set of observed genotypes.
+
+To do this we define the rules of conflation/3 as defined in X on lines 2-5. 
+We then give a recursive defintion to conflation_seq/2 which defines a sequence of conflations. (Line 7-8).
+
+W
+
+
+
+
+
+
+</div>
+
+<div class="nb-cell program" data-background="true" name="p1">
+:- use_module(library(scasp)).
+</div>
+
+<div class="nb-cell program" name="p2">
+%conflation.
+conflation(2,0,1).
+conflation(2,1,0).
+conflation(0,0,0).
+conflation(1,1,1).
+
+conflation_seq([],[],[]).
+conflation_seq([G|Gs],[HA1|HAs],[HB1|HBs]):-
+       conflation(G,HA1,HB1),
+       conflation_seq(Gs,HAs,HBs).
+
+genotype(_G,Genotype):-
+    haplotype(Hap1),
+    haplotype(Hap2),
+    conflation_seq(Genotype,Hap1,Hap2).
+
+haplotype(_X).
+</div>
+
+<div class="nb-cell query" name="q1">
+? genotype(1,[2,1,2]),genotype(2,[1,2,1]).
+</div>
+
+</div>
