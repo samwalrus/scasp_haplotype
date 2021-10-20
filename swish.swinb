@@ -1,23 +1,33 @@
 <div class="notebook">
 
-<div class="nb-cell markdown" name="md1">
-# Parsimonious Haplotype inference using s(CASP).
+<div class="nb-cell html" name="htm2">
+<h1>Parsimonious Haplotype inference using s(CASP). </h1>
 
+(Example adapted from: Dal Palu, Alessandro, et al. "Exploring life: answer set programming in bioinformatics." Declarative logic programming: theory, systems, and applications. 2018. 359-412.)
+
+
+<p>
 DNA of a diploid organism such as humans is stored in two non-identical sequences of DNA. A single sequence is called a haplotype. Each haplotype is inherited from a single parent. The two sequences together are called the genotype.
-We can represent Genotypes and Haplotypes by the collection of ambiguous SNPS (as opposed to the compelte sequences where there is many places where there is no ambiguity).
-
+We can represent genotypes and haplotypes by a collection of ambiguous SNPS in sequence (as opposed to the compelte sequences where there is many places where there is no ambiguity).
+</p>
+<p>
+Biotechnolgy allows cheap genotyping but being able to infer haplotypes of a set of SNPs is usefull for a number of tasks,  for example imputation where a set of haplotypes infered from a small genotyping SNP array can be compared to a reference population of sequence data in order to impute a much larger number of SNPS.
+</p>
+<p>
 We can use s(CASP) with abductive reasoning to infer the smallest set of haplotypes that explain a given set of observed genotypes.
-
-To do this we define the rules of conflation/3 as defined in X on lines 2-5. 
-We then give a recursive defintion to conflation_seq/2 which defines a sequence of conflations. (Line 7-8).
-
-W
-
-
-
-
-
-
+</p>
+<p>
+To do this we define the rules of <code>conflation/3</code> as defined in [1] on lines 2-5. 
+If they are Hetrozygous they will have the genotype 2, otherwise they will have either 1 or 0 for the alternative homozygous genotypes.
+We then give a recursive defintion to <code>conflation_seq/2</code> which defines a sequence of conflations. (Line 7-8).
+</p>
+<p>
+A genotype is defined as the conflated sequences of two haplotypes. (Lines 12-15).
+</p>
+<p>
+A haplotype is defined as being anything on line 17. 
+The s(CASP) proof procedure will instansinated the variable with haplotypes that are consistant with our query.
+</p>
 </div>
 
 <div class="nb-cell program" data-background="true" name="p1">
@@ -26,10 +36,10 @@ W
 
 <div class="nb-cell program" name="p2">
 %conflation.
-conflation(2,0,1).
-conflation(2,1,0).
-conflation(0,0,0).
-conflation(1,1,1).
+conflation(2,0,1). %Hetrozygous
+conflation(2,1,0). %Hetrozygous
+conflation(0,0,0). %Homozygous
+conflation(1,1,1). %Homozygous.
 
 conflation_seq([],[],[]).
 conflation_seq([G|Gs],[HA1|HAs],[HB1|HBs]):-
@@ -44,8 +54,47 @@ genotype(_G,Genotype):-
 haplotype(_X).
 </div>
 
+<div class="nb-cell markdown" name="md3">
+We can then query the program with our observed genotypes. s(CASP) will return in its model the set of haplotypes that is able to explain the observations.
+In this case the first model returned is the smallest. i.e. the set of haplotypes :
+    [0,1,0],[1,1,1],[1,0,1] 
+Asking s(CASP) to back track and return other models will find addtional proofs for this model as well as addtional larger models such as [0,1,1],[1,1,0],[1,0,1],[1,1,1].
+</div>
+
+<div class="nb-cell html" name="htm3">
+<img src="https://raw.githubusercontent.com/samwalrus/scasp_haplotype/master/haplotypes.png">
+
+Figure 1: Diagram of two alternative models (top vs bottom) that explain the genotypes. [2].
+</div>
+
 <div class="nb-cell query" name="q1">
 ? genotype(1,[2,1,2]),genotype(2,[1,2,1]).
+</div>
+
+<div class="nb-cell html" name="htm1">
+We can also query with missing data as well as constraints on missing data. For example the following query asks for what X could be, and then what haplotypes would support that X.
+</div>
+
+<div class="nb-cell query" name="q2">
+? genotype(1,[2,1,X]),genotype(2,[1,2,1]).
+</div>
+
+<div class="nb-cell html" name="htm4">
+We can add contraints to the model for example do not allow the haplotype [0,1,0].
+</div>
+
+<div class="nb-cell query" name="q3">
+? genotype(1,[2,1,2]),genotype(2,[1,2,1]), not haplotype([0,1,0]).
+</div>
+
+<div class="nb-cell markdown" name="md2">
+[1] G. Lancia, M. C. Pinotti, and R. Rizzi. 2004. Haplotyping populations by pure parsimony:
+Complexity of exact and approximation algorithms. INFORMS Journal on Computing,
+16(4): 348–359. DOI: 10.1287/ijoc.1040.0085. 380, 381
+
+
+[2] Dal Palu, Alessandro, et al. "Exploring life: answer set programming in bioinformatics." Declarative logic programming: theory, systems, and applications. 2018. 359-412.
+
 </div>
 
 </div>
