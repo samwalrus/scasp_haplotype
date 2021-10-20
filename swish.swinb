@@ -34,7 +34,7 @@ The s(CASP) proof procedure will instansinated the variable with haplotypes that
 :- use_module(library(scasp)).
 </div>
 
-<div class="nb-cell program" name="p2">
+<div class="nb-cell program" data-background="true" name="p2">
 %conflation.
 conflation(2,0,1). %Hetrozygous
 conflation(2,1,0). %Hetrozygous
@@ -80,11 +80,8 @@ We can also query with missing data as well as constraints on missing data. For 
 </div>
 
 <div class="nb-cell html" name="htm4">
-We can add contraints to the model for example do not allow the haplotype [0,1,0].
-</div>
-
-<div class="nb-cell query" name="q3">
-? genotype(1,[2,1,2]),genotype(2,[1,2,1]), not haplotype([0,1,0]).
+<p>We can add contraints to the model for example do not allow the haplotype [0,1,0], by adapting the rule for haplotypes on line 17.</p>
+<code> haplotype(X):- not my_constraint(X). </code><br><code>my_constraint([0,1,0]).</code>
 </div>
 
 <div class="nb-cell markdown" name="md2">
