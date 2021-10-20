@@ -1,4 +1,4 @@
-<div class="notebook">
+<div class="notebook hide-navbar open-fullscreen">
 
 <div class="nb-cell html" name="htm2">
 <h1>Parsimonious Haplotype inference using s(CASP). </h1>
@@ -62,9 +62,10 @@ Asking s(CASP) to back track and return other models will find additional proofs
 </div>
 
 <div class="nb-cell html" name="htm3">
-<img src="https://raw.githubusercontent.com/samwalrus/scasp_haplotype/master/haplotypes.png">
-
-Figure 1: Diagram of two alternative models (top vs bottom) that explain the genotypes. [2].
+<figure>
+    <img src="https://raw.githubusercontent.com/samwalrus/scasp_haplotype/master/haplotypes.png">
+    <figcaption>Figure 1: Diagram of two alternative models (top vs bottom) that explain the genotypes. [2].</figcaption>
+</figure>
 </div>
 
 <div class="nb-cell query" name="q1">
