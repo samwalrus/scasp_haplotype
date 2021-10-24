@@ -27,6 +27,7 @@ fd_length([_|L], N, N0) :-
 %Ensure the list is sorted somehow?
 gs_hs([],_).
 gs_hs([G|G_Rest],Hs):-
+    quick_sort2(Hs,Hs),
     haplotype(H1),
     haplotype(H2),
     conflation_seq(G,H1,H2),
@@ -35,6 +36,16 @@ gs_hs([G|G_Rest],Hs):-
     gs_hs(G_Rest,Hs).
 
 haplotype(_).
+
+pivoting(_H,[],[],[]).
+pivoting(H,[X|T],[X|L],G):-X=<H,pivoting(H,T,L,G).
+pivoting(H,[X|T],L,[X|G]):-X>H,pivoting(H,T,L,G).
+
+quick_sort2(List,Sorted):-q_sort(List,[],Sorted).
+q_sort([],Acc,Acc).
+q_sort([H|T],Acc,Sorted):-
+	pivoting(H,T,L1,L2),
+	q_sort(L1,Acc,Sorted1),q_sort(L2,[H|Sorted1],Sorted).
 /** <examples> Your example queries go here, e.g.
 ?- ? Y#<5,fd_length(X,Y).
 ?- ? Y#<5,fd_length(Hs,Y),gs_hs([[2,1,2],[1,2,1]],HS).
