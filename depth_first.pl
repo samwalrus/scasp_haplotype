@@ -25,6 +25,7 @@ fd_length([_|L], N, N0) :-
 
 %List of genome sequesnce and list of haplotype sequences
 %Ensure the list is sorted somehow?
+%if the list is constrained to be sorted it can sit outside of this predicate
 gs_hs([],_).
 gs_hs([G|G_Rest],Hs):-
     %quick_sort2(Hs,Hs),
