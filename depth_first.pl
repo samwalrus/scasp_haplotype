@@ -38,6 +38,26 @@ gs_hs([G|G_Rest],Hs):-
 
 haplotype(_).
 
+binary_number(Bs, N) :-
+   binary_number_min(Bs, 0,N, N).
+
+binary_number_min([], N,N, _M).
+binary_number_min([B|Bs], N0,N, M) :-
+   B in 0..1,
+   N1 #= B+2*N0,
+   M #>= N1,
+   binary_number_min(Bs, N1,N, M).
+
+lessthan(XBin,YBin):-
+    dec2bin(XBin,X),
+    dec2bin(YBin,Y),
+    X=<Y.
+
+greater(XBin,YBin):-
+    dec2bin(XBin,X),
+    dec2bin(YBin,Y),
+    X>Y.
+
 pivoting(_H,[],[],[]).
 pivoting(H,[X|T],[X|L],G):-X=<H,pivoting(H,T,L,G).
 pivoting(H,[X|T],L,[X|G]):-X>H,pivoting(H,T,L,G).
