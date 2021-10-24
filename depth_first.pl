@@ -24,7 +24,7 @@ fd_length([_|L], N, N0) :-
    fd_length(L, N, N1).
 
 %List of genome sequesnce and list of haplotype sequences
-gs_hs([],[]).
+gs_hs([],_).
 gs_hs([G|G_Rest],Hs):-
     haplotype(H1),
     haplotype(H2),
@@ -36,7 +36,7 @@ gs_hs([G|G_Rest],Hs):-
 haplotype(_).
 /** <examples> Your example queries go here, e.g.
 ?- ? Y#<5,fd_length(X,Y).
-?- ? Y#<5,fd_length(X,Y),gs_hs([[2,1,2],[1,2,1]],HS).
+?- ? Y#<5,fd_length(Hs,Y),gs_hs([[2,1,2],[1,2,1]],HS).
 ?- ? gs_hs([[2,1,2],[1,2,1]],[[0,1,0],[1,1,1],[1,0,1]]).
 ?- ? fd_length(Hs,Len), haplotype(H1),haplotype(H2),conflation_seq([2,1,2],H1,H2),member(H1,Hs),member(H2,Hs).
 ?- ? fd_length(Hs,Len), haplotype(H1),haplotype(H2),conflation_seq([2,1,2],H1,H2),member(H1,Hs),member(H2,Hs),haplotype(H1B),haplotype(H2B),conflation_seq([1,2,1],H1B,H2B),member(H1B,Hs),member(H2B,Hs).
