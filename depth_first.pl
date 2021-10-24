@@ -38,29 +38,18 @@ gs_hs([G|G_Rest],Hs):-
 
 haplotype(_).
 
-binary_number(Bs, N) :-
-   binary_number_min(Bs, 0,N, N).
 
-binary_number_min([], N,N, _M).
-binary_number_min([B|Bs], N0,N, M) :-
-   B in 0..1,
-   N1 #= B+2*N0,
-   M #>= N1,
-   binary_number_min(Bs, N1,N, M).
+less_equal_bin([],[]).
+less_equal_bin([XFirstDigit|_XRest],[YFirstDigit|_YRest]):-
+    XFirstDigit < YFirstDigit.
+less_equal_bin([XFirstDigit|XRest],[YFirstDigit|YRest]):-
+    XFirstDigit = YFirstDigit,
+    less_equal_bin(XRest,YRest).
 
-lessthan(XBin,YBin):-
-    dec2bin(XBin,X),
-    dec2bin(YBin,Y),
-    X=<Y.
-
-greater(XBin,YBin):-
-    dec2bin(XBin,X),
-    dec2bin(YBin,Y),
-    X>Y.
 
 pivoting(_H,[],[],[]).
-pivoting(H,[X|T],[X|L],G):-X=<H,pivoting(H,T,L,G).
-pivoting(H,[X|T],L,[X|G]):-X>H,pivoting(H,T,L,G).
+pivoting(H,[X|T],[X|L],G):-less_equal_bin(X,H),pivoting(H,T,L,G).
+pivoting(H,[X|T],L,[X|G]):-not less_equal_bin(X,H),pivoting(H,T,L,G).
 
 quick_sort2(List,Sorted):-q_sort(List,[],Sorted).
 q_sort([],Acc,Acc).
