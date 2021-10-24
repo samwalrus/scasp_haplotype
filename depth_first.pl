@@ -24,6 +24,7 @@ fd_length([_|L], N, N0) :-
    fd_length(L, N, N1).
 
 %List of genome sequesnce and list of haplotype sequences
+%Ensure the list is sorted somehow?
 gs_hs([],_).
 gs_hs([G|G_Rest],Hs):-
     haplotype(H1),
